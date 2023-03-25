@@ -77,6 +77,18 @@ class authController {
       console.log(error)
     }
   }
+
+  async getMe (req, res) {
+    try {
+      const token = req.headers.authorization.split(' ')[1]
+      const userId = jwt.verify(token, secret).id
+      const user = await User.findById(userId)
+      user.set('password', undefined )
+      res.json(user)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 module.exports = new authController()
