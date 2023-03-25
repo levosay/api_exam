@@ -9,7 +9,7 @@ router.post('/signup', [
   check('password', 'Пароль должен быть больше 6 символов').isLength({ min: 6 })
 ], controller.signUp)
 router.post('/signin', controller.signIn)
-router.get('/users', controller.getUsers)
-router.get('/users/:id', controller.getUser)
+router.get('/users', authMiddleware, controller.getUsers)
+router.get('/users/:id', authMiddleware, controller.getUser)
 
 module.exports = router
