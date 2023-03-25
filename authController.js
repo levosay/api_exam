@@ -67,6 +67,16 @@ class authController {
       console.log(error)
     }
   }
+
+  async getUser (req, res) {
+    try {
+      const user = await User.findById(req.params.id)
+      user.set('password', undefined )
+      res.json(user)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 module.exports = new authController()
