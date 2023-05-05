@@ -12,10 +12,5 @@ router.post('/signin', controller.signIn)
 router.get('/users', authMiddleware, controller.getUsers)
 router.get('/users/:id', authMiddleware, controller.getUser)
 router.get('/me', authMiddleware, controller.getMe)
-router.get('/questions', authMiddleware, controller.getQuestions)
-
-// controller.test1()
-// controller.test2()
-
 
 module.exports = router
