@@ -7,6 +7,7 @@ const secret = process.env.SECRET_KEY_JWT
 
 const generateAccessToken = (id, roles) => {
   const payload = { id, roles }
+
   return jwt.sign(payload, secret, { expiresIn: '24h' })
 }
 
@@ -32,6 +33,7 @@ class authController {
         roles: [userRole.value]
       })
       await user.save()
+
       return res.json({ message: 'Пользователь успешно зарегистрирован' })
     } catch (error) {
       console.log(error)
@@ -52,6 +54,7 @@ class authController {
         return res.status(400).json({ message: `Введен неверный пароль` })
       }
       const token = generateAccessToken(user._id, user.roles)
+
       return res.json({ token })
     } catch (error) {
       console.log(error)
@@ -62,6 +65,7 @@ class authController {
   async getUsers (req, res) {
     try {
       const users = await User.find().select("-password")
+
       res.json(users)
     } catch (error) {
       console.log(error)
@@ -71,6 +75,7 @@ class authController {
   async getUser (req, res) {
     try {
       const user = await User.findById(req.params.id).select("-password")
+
       res.json(user)
     } catch (error) {
       console.log(error)
@@ -82,6 +87,7 @@ class authController {
       const token = req.headers.authorization.split(' ')[1]
       const userId = jwt.verify(token, secret).id
       const user = await User.findById(userId).select("-password")
+
       res.json(user)
     } catch (error) {
       console.log(error)
