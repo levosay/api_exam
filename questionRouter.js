@@ -4,9 +4,8 @@ const router = new Router
 
 router.get('/questions', controller.getQuestions)
 router.get('/questions/:id', controller.getQuestions)
-
-// controller.test_check()
-// controller.test_text()
-// controller.test_sequence()
+router.post('/test-text', controller.postQuestionText)
+router.post('/test_check', controller.postQuestionCheck)
+router.post('/test_sequence', controller.postQuestionSequence)
 
 module.exports = router

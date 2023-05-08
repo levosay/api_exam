@@ -12,36 +12,63 @@ class questionController {
     }
   }
 
-  async test_text () {
-    const Text = new Questions.Text({
-      type: 'text',
-      question: 'wdsasdas',
-      test: 1,
-      position: 2
-    })
-    await Text.save()
+  async postQuestionText (req, res) {
+    try {
+      const { type, test, position, question, key } = req.body
+      const newQuestion = new Questions.Text({
+        type,
+        test,
+        position,
+        question,
+        key
+      })
+
+      await newQuestion.save()
+      return res.json({ message: 'Вопрос успешно создан' })
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({ message: 'Create error' })
+    }
   }
 
-  async test_check () {
-    const Check = new Questions.Check({
-      type: 'checkbox',
-      question: 'dfgdfgdf',
-      test: 1,
-      position: 4,
-      answers: ['1994', '2077', '1812', '2023']
-    })
-    await Check.save()
+  async postQuestionCheck (req, res) {
+    try {
+      const { type, test, position, question, answers, key } = req.body
+      const newQuestion = new Questions.Check({
+        type,
+        test,
+        position,
+        question,
+        answers,
+        key
+      })
+
+      await newQuestion.save()
+      return res.json({ message: 'Вопрос успешно создан' })
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({ message: 'Create error' })
+    }
   }
 
-  async test_sequence () {
-    const Sequence = new Questions.Sequence({
-      type: 'sequence',
-      question: 'sdfsdfsdf',
-      test: 1,
-      position: 5,
-      answers: ['1994', '2077', '1812', '2023']
-    })
-    await Sequence.save()
+  async postQuestionSequence (req, res) {
+    try {
+      const { type, test, position, question, answers, key } = req.body
+      const newQuestion = new Questions.Sequence({
+        type,
+        test,
+        position,
+        question,
+        answers,
+        key
+      })
+
+      await newQuestion.save()
+      return res.json({ message: 'Вопрос успешно создан' })
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({ message: 'Create error' })
+    }
   }
 }
 
