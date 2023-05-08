@@ -4,57 +4,21 @@ class questionController {
   async getQuestions (req, res) {
     try {
       const testId = req.params.id
-      const texts = await Questions.Text.find().where('test').equals(testId)
-      const checks = await Questions.Check.find().where('test').equals(testId)
-      res.json([...texts, ...checks])
+      const question = await Questions.Question.find().select("-key").where('test').equals(testId).sort({ position: 1 })
+      res.json(question)
     } catch (error) {
       console.log(error)
     }
   }
 
-  async postQuestionText (req, res) {
-    try {
-      const { type, test, position, question, key } = req.body
-      const newQuestion = new Questions.Text({
-        type,
-        test,
-        position,
-        question,
-        key
-      })
+  // async postAnswers (req, res) {
+  //
+  // }
 
-      await newQuestion.save()
-      return res.json({ message: 'Вопрос успешно создан' })
-    } catch (error) {
-      console.log(error)
-      res.status(400).json({ message: 'Create error' })
-    }
-  }
-
-  async postQuestionCheck (req, res) {
+  async postQuestionCreate (req, res) {
     try {
       const { type, test, position, question, answers, key } = req.body
-      const newQuestion = new Questions.Check({
-        type,
-        test,
-        position,
-        question,
-        answers,
-        key
-      })
-
-      await newQuestion.save()
-      return res.json({ message: 'Вопрос успешно создан' })
-    } catch (error) {
-      console.log(error)
-      res.status(400).json({ message: 'Create error' })
-    }
-  }
-
-  async postQuestionSequence (req, res) {
-    try {
-      const { type, test, position, question, answers, key } = req.body
-      const newQuestion = new Questions.Sequence({
+      const newQuestion = new Questions.Question({
         type,
         test,
         position,

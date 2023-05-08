@@ -1,6 +1,5 @@
 const User = require('./models/User')
 const Role = require('./models/Role')
-const Questions = require('./models/Questions')
 const { validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -62,7 +61,7 @@ class authController {
 
   async getUsers (req, res) {
     try {
-      const users = await User.find()
+      const users = await User.find().select("-password")
       res.json(users)
     } catch (error) {
       console.log(error)
@@ -71,8 +70,7 @@ class authController {
 
   async getUser (req, res) {
     try {
-      const user = await User.findById(req.params.id)
-      user.set('password', undefined )
+      const user = await User.findById(req.params.id).select("-password")
       res.json(user)
     } catch (error) {
       console.log(error)
@@ -83,8 +81,7 @@ class authController {
     try {
       const token = req.headers.authorization.split(' ')[1]
       const userId = jwt.verify(token, secret).id
-      const user = await User.findById(userId)
-      user.set('password', undefined )
+      const user = await User.findById(userId).select("-password")
       res.json(user)
     } catch (error) {
       console.log(error)
