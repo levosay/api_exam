@@ -7,7 +7,11 @@ class questionController {
   async getQuestions (req, res) {
     try {
       const testId = req.params.id
-      const question = await Questions.Question.find().select("-key").where('test').equals(testId).sort({ position: 1 })
+      const question = await Questions.Question.find()
+        .select('-key')
+        .where('test')
+        .equals(testId)
+        .sort({ position: 1 })
       res.json(question)
     } catch (error) {
       console.log(error)
@@ -45,7 +49,8 @@ class questionController {
             if (userAnswer[0].toLowerCase() === passAnswer.key.toLowerCase()) {
               countQuestionsPass += 1
               answerReview.pass = true
-            } else {
+            }
+            else {
               answerReview.pass = false
             }
 
@@ -60,7 +65,8 @@ class questionController {
             if (userAnswer.join(' ') === passAnswer.key) {
               countQuestionsPass += 1
               answerReview.pass = true
-            } else {
+            }
+            else {
               answerReview.pass = false
             }
 
@@ -73,13 +79,18 @@ class questionController {
             answerReview.userAnswer = userAnswer[0]
             answerReview.passAnswer = passAnswer.key
 
-            const userAnswerStr = userAnswer[0].split(',').sort((a, b) => a-b).join('')
-            const passAnswerStr = passAnswer.key.split(',').sort((a, b) => a-b).join('')
+            const userAnswerStr = userAnswer[0].split(',')
+              .sort((a, b) => a - b)
+              .join('')
+            const passAnswerStr = passAnswer.key.split(',')
+              .sort((a, b) => a - b)
+              .join('')
 
             if (userAnswerStr === passAnswerStr) {
               countQuestionsPass += 1
               answerReview.pass = true
-            } else {
+            }
+            else {
               answerReview.pass = false
             }
 
@@ -90,11 +101,12 @@ class questionController {
       }
 
       const points = Math.floor(countQuestionsPass * 100 / countQuestions)
+      const date = `${new Date().toLocaleDateString()} ${new Date().toTimeString().match(/^\d.:\d.:\d./)['0']}`
 
       user.exams = [
         ...user.exams, {
-          date: new Date(2011, 0, 1),
           review: hintData,
+          date,
           points
         }
       ]
