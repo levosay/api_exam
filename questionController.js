@@ -7,7 +7,8 @@ class questionController {
   async getQuestions (req, res) {
     try {
       const testId = req.params.id
-      const question = await Questions.Question.find()
+      const question = await Questions.Question
+        .find()
         .select('-key')
         .where('test')
         .equals(testId)
