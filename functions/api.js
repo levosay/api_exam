@@ -10,7 +10,7 @@ const MONGO_URL = process.env.MONGO_URL || ''
 const BASE_NETLIFY = process.env.BASE_NETLIFY || ''
 const app = express()
 
-app.options('*', cors())
+app.use(cors())
 app.use(express.json())
 app.use(`${BASE_NETLIFY}/auth`, authRouter)
 app.use(`${BASE_NETLIFY}/exam`, questionRouter)
