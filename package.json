@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "netlify-lambda serve functions",
-    "build": "netlify deploy"
+    "build": "netlify deploy --prod"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

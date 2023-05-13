@@ -14,7 +14,7 @@ app.use('/auth', authRouter)
 app.use('/exam', questionRouter)
 
 mongoose.connect(MONGO_URL)
-app.listen(5000, () => console.log(`server started on ${5000}`))
+// app.listen(5000, () => console.log(`server started on ${5000}`))
 module.exports.handler = serverless(app)
 
 // const start = async () => {
