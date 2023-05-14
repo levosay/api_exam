@@ -90,7 +90,7 @@ class authController {
 
       res.json(user)
     } catch (error) {
-      console.log(error)
+      res.status(403).json({ message: 'Пользователь не авторизован' })
     }
   }
 }
