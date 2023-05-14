@@ -7,10 +7,17 @@ const Answer = new Schema({
   pass: { type: Boolean }
 })
 
+const Topic = new Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  test: { type: Number, required: true, unique: true },
+})
+
 const Exams = new Schema({
   review: { type: Array(Answer) },
   date: { type: String, required: true },
-  points: { type: Number, required: true }
+  points: { type: Number, required: true },
+  topic: { type: Topic }
 })
 
 const User = new Schema({

@@ -26,15 +26,17 @@ class questionController {
       const userId = jwt.verify(token, secret).id
       const user = await User.findById(userId)
 
-      const bodyObj = req.body
-      const countQuestions = Object.keys(bodyObj).length
+      const { topicId, questionData } = req.body
+      const topic = await Topic.findOne({test: topicId})
+
+      const countQuestions = Object.keys(questionData).length
       let countQuestionsPass = 0
       const hintData = []
 
-      for (const field in bodyObj) {
+      for (const field in questionData) {
         const answerReview = {}
         const passAnswer = await Questions.Question.findById(field)
-        const userAnswer = bodyObj[field].answers
+        const userAnswer = questionData[field].answers
         const questionType = passAnswer.type
 
         switch (questionType) {
@@ -105,7 +107,8 @@ class questionController {
         ...user.exams, {
           review: hintData,
           date,
-          points
+          points,
+          topic
         }
       ]
 
