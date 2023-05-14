@@ -1,4 +1,5 @@
 const Questions = require('./models/Questions')
+const Topic = require('./models/Topic')
 const jwt = require('jsonwebtoken')
 const User = require('./models/User')
 const secret = process.env.SECRET_KEY_JWT
@@ -18,11 +19,6 @@ class questionController {
       console.log(error)
     }
   }
-
-  // 5
-  // Акт о безоговорочной капитуляции Германских вооружённых сил вступил в … = 8 мая 1945
-  // Какой флот СССР удалось сохранить в битве за Заполярье? = Северный
-  // Введите цифры по порядку через запятую = 1,2,3,4
 
   async postAnswers (req, res) {
     try {
@@ -102,7 +98,8 @@ class questionController {
       }
 
       const points = Math.floor(countQuestionsPass * 100 / countQuestions)
-      const date = `${new Date().toLocaleDateString()} ${new Date().toTimeString().match(/^\d.:\d.:\d./)['0']}`
+      const date = `${new Date().toLocaleDateString()} ${new Date().toTimeString()
+        .match(/^\d.:\d.:\d./)['0']}`
 
       user.exams = [
         ...user.exams, {
@@ -123,6 +120,12 @@ class questionController {
   async postQuestionCreate (req, res) {
     try {
       const { type, test, position, question, answers, key } = req.body
+      const topic = await Topic.findOne({ test })
+      if (!topic) {
+        return res.status(400)
+          .json({ message: 'Тема не найдена "test"' })
+      }
+
       const newQuestion = new Questions.Question({
         type,
         test,
@@ -134,6 +137,34 @@ class questionController {
 
       await newQuestion.save()
       return res.json({ message: 'Вопрос успешно создан' })
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({ message: 'Create error' })
+    }
+  }
+
+  async getTopicQuestion (req, res) {
+    try {
+      const topic = await Topic.find().sort({ test: 1 })
+
+      res.json(topic)
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({ message: 'Find error' })
+    }
+  }
+
+  async postTopicQuestion (req, res) {
+    try {
+      const { title, description, test } = req.body
+      const newTopic = new Topic({
+        title,
+        description,
+        test
+      })
+
+      await newTopic.save()
+      return res.json({ message: 'Тема успешно создана' })
     } catch (error) {
       console.log(error)
       res.status(400).json({ message: 'Create error' })
