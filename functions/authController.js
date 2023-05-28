@@ -85,6 +85,11 @@ class authController {
   async getMe (req, res) {
     try {
       const token = req.headers.authorization.split(' ')[1]
+
+      if (!token) {
+        return res.status(400).json({ message: `Недействительный токен` })
+      }
+
       const userId = jwt.verify(token, secret).id
       const user = await User.findById(userId).select("-password")
 
