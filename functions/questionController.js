@@ -72,7 +72,22 @@ class questionController {
             hintData.push(answerReview)
             break
           }
+          case 'radio': {
+            answerReview.title = passAnswer.question
+            answerReview.userAnswer = userAnswer.join(', ')
+            answerReview.passAnswer = passAnswer.key
 
+            if (userAnswer.join(' ') === passAnswer.key) {
+              countQuestionsPass += 1
+              answerReview.pass = true
+            }
+            else {
+              answerReview.pass = false
+            }
+
+            hintData.push(answerReview)
+            break
+          }
           case 'sequence': {
             answerReview.title = passAnswer.question
             answerReview.userAnswer = userAnswer[0]
