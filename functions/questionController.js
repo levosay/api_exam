@@ -137,16 +137,16 @@ class questionController {
 
   async postQuestionCreate (req, res) {
     try {
-      const questions = req.body
+      const { questions, test } = req.body
 
-      for (let i = 0; i < questions.length + 1; i++) {
+      const topic = await Topic.findOne({ test })
+      if (!topic) {
+        return res.status(400)
+          .json({ message: 'Тема не найдена "test"' })
+      }
+
+      for (let i = 0; i < questions.length; i++) {
         const { type, test, position, question, answers, key } = questions[i]
-
-        const topic = await Topic.findOne({ test })
-        if (!topic) {
-          return res.status(400)
-            .json({ message: 'Тема не найдена "test"' })
-        }
 
         const newQuestion = new Questions.Question({
           type,
@@ -163,7 +163,7 @@ class questionController {
       return res.json({ message: questions.length > 1 ? 'Вопросы успешно созданы' :'Вопрос успешно создан' })
     } catch (error) {
       console.log(error)
-      res.status(400).json({ message: 'Create error' })
+      res.status(400).json({ message: `Create error: ${error}` })
     }
   }
 
