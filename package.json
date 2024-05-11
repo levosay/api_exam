@@ -1,11 +1,11 @@
 {
-  "name": "exam_api",
+  "name": "api_exam",
   "version": "1.0.0",
   "main": "functions/index.js",
   "license": "MIT",
   "scripts": {
     "start": "netlify-lambda serve functions",
-    "build": "netlify-cli"
+    "build": "netlify deploy"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
