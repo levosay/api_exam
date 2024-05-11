@@ -26,7 +26,7 @@ class questionController {
       const userId = jwt.verify(token, secret).id
       const user = await User.findById(userId)
 
-      const { topicId, questionData } = req.body
+      const { topicId, questionData, time } = req.body
       const topic = await Topic.findOne({test: topicId})
 
       const countQuestions = Object.keys(questionData).length
@@ -123,7 +123,8 @@ class questionController {
           review: hintData,
           date,
           points,
-          topic
+          topic,
+          time
         }
       ]
 
