@@ -17,7 +17,8 @@ const Exams = new Schema({
   review: { type: Array(Answer) },
   date: { type: String, required: true },
   points: { type: Number, required: true },
-  topic: { type: Topic }
+  topic: { type: Topic },
+  time: { type: String },
 })
 
 const User = new Schema({
