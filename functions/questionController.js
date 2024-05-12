@@ -8,13 +8,14 @@ class questionController {
   async getQuestions (req, res) {
     try {
       const testId = req.params.id
-      const question = await Questions.Question
+      const topic = await Topic.findOne({test: testId})
+      const questions = await Questions.Question
         .find()
         .select('-key')
         .where('test')
         .equals(testId)
         .sort({ position: 1 })
-      res.json(question)
+      res.json({ questions, topic })
     } catch (error) {
       console.log(error)
     }
